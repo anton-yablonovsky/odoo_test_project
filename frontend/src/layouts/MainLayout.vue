@@ -3,7 +3,6 @@ import { RouterView } from "vue-router";
 import router from "../router";
 import { useStore } from "../stores/store.js";
 
-
 export default {
   data() {
     return {
@@ -77,14 +76,14 @@ export default {
         <button @click="logout">Logout</button>
       </li>
     </ul>
-  </nav><br>
+  </nav>
+  <br />
   <div v-if="this.store.isAuthenticatedState">
-      <RouterView />
+    <RouterView />
   </div>
 </template>
 
 <style scoped>
-
 .navbar {
   background-color: #333;
   padding: 10px;

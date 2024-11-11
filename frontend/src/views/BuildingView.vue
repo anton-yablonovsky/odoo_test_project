@@ -6,13 +6,11 @@ import router from "../router";
 export default {
   data() {
     return {
-
       store: useStore(),
 
       building_address: null,
       building_number: null,
       building_for_delete: null,
-
     };
   },
 
@@ -24,18 +22,21 @@ export default {
     async submitBuildingForm() {
       const formData = {
         address: this.building_address,
-        number: this.building_number
+        number: this.building_number,
       };
 
       try {
-        await axios.post("http://localhost:8000/backend/api/add_building/", formData, {
-          headers: {
-            "Content-Type": "application/json",
+        await axios.post(
+          "http://localhost:8000/backend/api/add_building/",
+          formData,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
           },
-        });
-      
-      await this.store.getBuildings();
+        );
 
+        await this.store.getBuildings();
       } catch (error) {
         console.error("Error creating building:", error);
         alert("Failed to create building.");
@@ -49,27 +50,27 @@ export default {
       }
 
       try {
-        await axios.delete(`http://localhost:8000/backend/api/delete_building/${this.building_for_delete}/`, {
-          headers: {
-            "Content-Type": "application/json",
+        await axios.delete(
+          `http://localhost:8000/backend/api/delete_building/${this.building_for_delete}/`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
           },
-        });
+        );
 
         await this.store.getBuildings();
-
       } catch (error) {
         console.error("Error deleting building:", error);
         alert("Failed to delete building.");
       }
     },
-
   },
 };
 </script>
 
 <template>
   <div class="manage-buildings">
-
     <h1>Manage Building</h1>
 
     <div class="create-building-page">
@@ -77,14 +78,24 @@ export default {
       <form @submit.prevent="submitBuildingForm" class="building-form">
         <!-- Address Field -->
         <div class="form-group">
-          <label for="address">Address:</label><br>
-          <input v-model="this.building_address" type="text" id="building_address" required />
+          <label for="address">Address:</label><br />
+          <input
+            v-model="this.building_address"
+            type="text"
+            id="building_address"
+            required
+          />
         </div>
 
         <!-- Number Field -->
         <div class="form-group">
-          <label for="number">Number:</label><br>
-          <input v-model="this.building_number" type="text" id="building_number" required />
+          <label for="number">Number:</label><br />
+          <input
+            v-model="this.building_number"
+            type="text"
+            id="building_number"
+            required
+          />
         </div>
 
         <!-- Submit Button -->
@@ -95,18 +106,24 @@ export default {
     <div>
       <h2>Delete a Building</h2>
       <form @submit.prevent="deleteBuildingForm" class="delete-building-form">
-
         <div class="form-group">
-          <label for="buildingSelect">Select Building to Delete:</label><br>
-          <select v-model="this.building_for_delete" id="building_for_delete" required>
+          <label for="buildingSelect">Select Building to Delete:</label><br />
+          <select
+            v-model="this.building_for_delete"
+            id="building_for_delete"
+            required
+          >
             <option value="" disabled>Select a Building</option>
-            <option v-for="building in this.store.buildings" :key="building.id" :value="building.id">
+            <option
+              v-for="building in this.store.buildings"
+              :key="building.id"
+              :value="building.id"
+            >
               {{ building.address }} - {{ building.number }}
             </option>
           </select>
         </div>
         <button type="submit" class="btn btn-primary">Delete Building</button>
-      
       </form>
     </div>
   </div>

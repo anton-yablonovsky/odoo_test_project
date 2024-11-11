@@ -9,12 +9,9 @@ export default {
       manager_building: null,
     };
   },
-  methods: {
-
-  },
+  methods: {},
 
   async mounted() {
-
     this.store.getApartments();
     this.store.getEntrances();
     this.store.getBuildings();
@@ -22,16 +19,13 @@ export default {
 
     if (this.store.userRole == "manager") {
       this.store.getManagerBuildings();
-    }
-    else if (this.store.userRole == "guard") {
+    } else if (this.store.userRole == "guard") {
       this.store.getGuardEntrances();
       console.log("this.store.guard_entrances");
       console.log(this.store.guard_entrances);
-    }
-    else if (this.store.userRole == "inhabitant") {
+    } else if (this.store.userRole == "inhabitant") {
       this.store.getInhabitantApartments();
     }
-
   },
 
   computed: {
@@ -44,12 +38,11 @@ export default {
     adminApartments() {
       return this.store.apartments;
     },
-  }
+  },
 };
 </script>
 
 <template>
-
   <h1>Welcome to dashboard!</h1>
 
   <!-- Admin role div -->
@@ -80,7 +73,10 @@ export default {
   <!-- Manager role div -->
   <div v-else-if="this.store.userRole === 'manager'">
     <h2>Manager Section</h2>
-    <p>Hello, Manager! You have access to manage entrances, apartments, guards and inhabitants.</p>
+    <p>
+      Hello, Manager! You have access to manage entrances, apartments, guards
+      and inhabitants.
+    </p>
     <h5>Buildings (building id - building address - building number):</h5>
     <ul>
       <li v-for="building in this.store.manager_buildings" :key="building.id">
@@ -109,10 +105,12 @@ export default {
 
     <h5>Apartments (apartment id - entrance id - apartment number):</h5>
     <ul>
-      <li v-for="apartment in this.store.inhabitant_apartments" :key="apartment.id">
+      <li
+        v-for="apartment in this.store.inhabitant_apartments"
+        :key="apartment.id"
+      >
         {{ apartment.id }} - {{ apartment.entrance }} - {{ apartment.number }}
       </li>
     </ul>
   </div>
-
 </template>

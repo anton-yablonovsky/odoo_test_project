@@ -6,13 +6,11 @@ import router from "../router";
 export default {
   data() {
     return {
-
       store: useStore(),
 
       entrance_building: null,
       entrance_number: null,
       entrance_for_delete: null,
-
     };
   },
 
@@ -22,26 +20,29 @@ export default {
 
   methods: {
     async submitEntranceForm() {
-        const formData = {
-          building: this.entrance_building,
-          number: this.entrance_number
-        };
+      const formData = {
+        building: this.entrance_building,
+        number: this.entrance_number,
+      };
 
-        try {
-          await axios.post("http://localhost:8000/backend/api/add_entrance/", formData, {
+      try {
+        await axios.post(
+          "http://localhost:8000/backend/api/add_entrance/",
+          formData,
+          {
             headers: {
               "Content-Type": "application/json",
             },
-          });
+          },
+        );
 
         await this.store.getEntrances();
+      } catch (error) {
+        console.error("Error creating entrance:", error);
+        alert("Failed to create entrance.");
+      }
+    },
 
-        } catch (error) {
-          console.error("Error creating entrance:", error);
-          alert("Failed to create entrance.");
-        }
-      },
-    
     async deleteEntranceForm() {
       if (!this.entrance_for_delete) {
         alert("Please select an entrance to delete.");
@@ -49,28 +50,27 @@ export default {
       }
 
       try {
-        await axios.delete(`http://localhost:8000/backend/api/delete_entrance/${this.entrance_for_delete}/`, {
-          headers: {
-            "Content-Type": "application/json",
+        await axios.delete(
+          `http://localhost:8000/backend/api/delete_entrance/${this.entrance_for_delete}/`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
           },
-        });
+        );
 
         await this.store.getEntrances();
-
       } catch (error) {
         console.error("Error deleting entrance:", error);
         alert("Failed to delete entrance.");
       }
     },
-
   },
 };
 </script>
 
 <template>
-
   <div class="manage-entrances">
-
     <h1>Manage Entrance</h1>
 
     <div class="create-entrance-page">
@@ -78,10 +78,18 @@ export default {
       <form @submit.prevent="submitEntranceForm" class="entrance-form">
         <!-- Building Dropdown -->
         <div class="form-group">
-          <label for="building">Entrance Building:</label><br>
-          <select v-model="this.entrance_building" id="entrance_building" required>
+          <label for="building">Entrance Building:</label><br />
+          <select
+            v-model="this.entrance_building"
+            id="entrance_building"
+            required
+          >
             <option value="" disabled>Select a Building</option>
-            <option v-for="building in this.store.buildings" :key="building.id" :value="building.id">
+            <option
+              v-for="building in this.store.buildings"
+              :key="building.id"
+              :value="building.id"
+            >
               {{ building.address }} - {{ building.number }}
             </option>
           </select>
@@ -89,8 +97,13 @@ export default {
 
         <!-- Entrance Number Field -->
         <div class="form-group">
-          <label for="number">Entrance Number:</label><br>
-          <input v-model="this.entrance_number" type="text" id="entrance_number" required />
+          <label for="number">Entrance Number:</label><br />
+          <input
+            v-model="this.entrance_number"
+            type="text"
+            id="entrance_number"
+            required
+          />
         </div>
 
         <!-- Submit Button -->
@@ -101,12 +114,19 @@ export default {
     <div>
       <h2>Delete an Entrance</h2>
       <form @submit.prevent="deleteEntranceForm" class="delete-entrance-form">
-
         <div class="form-group">
-          <label for="entranceSelect">Select Entrance to Delete:</label><br>
-          <select v-model="this.entrance_for_delete" id="entrance_for_delete" required>
+          <label for="entranceSelect">Select Entrance to Delete:</label><br />
+          <select
+            v-model="this.entrance_for_delete"
+            id="entrance_for_delete"
+            required
+          >
             <option value="" disabled>Select an Entrance</option>
-            <option v-for="entrance in this.store.entrances" :key="entrance.id" :value="entrance.id">
+            <option
+              v-for="entrance in this.store.entrances"
+              :key="entrance.id"
+              :value="entrance.id"
+            >
               {{ entrance.building }} - {{ entrance.number }}
             </option>
           </select>
@@ -115,5 +135,4 @@ export default {
       </form>
     </div>
   </div>
-
 </template>

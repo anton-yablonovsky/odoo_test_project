@@ -5,7 +5,7 @@ async function checkAccess() {
     .get("users/check_access/")
     .then((response) => {
       if (!response.data.isAccess) {
-        alert("Access denied!")
+        alert("Access denied!");
       }
     })
     .catch((error) => {
@@ -13,6 +13,4 @@ async function checkAccess() {
     });
 }
 
-export {
-    checkAccess,
-}  
+export { checkAccess };

@@ -1,17 +1,17 @@
-import { createApp } from 'vue'
-import { createPinia } from 'pinia'
-import router from './router'
+import { createApp } from "vue";
+import { createPinia } from "pinia";
+import router from "./router";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./assets/main.css";
-import App from './App.vue'
-import { useStore } from './stores/store.js'
+import App from "./App.vue";
+import { useStore } from "./stores/store.js";
 
-const app = createApp(App)
+const app = createApp(App);
 
-app.use(createPinia())
-app.use(router)
+app.use(createPinia());
+app.use(router);
 
-const store = useStore()
-store.setCsrfToken()
+const store = useStore();
+store.setCsrfToken();
 
-app.mount('#app')
+app.mount("#app");

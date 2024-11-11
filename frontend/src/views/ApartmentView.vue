@@ -6,13 +6,11 @@ import router from "../router";
 export default {
   data() {
     return {
-
       store: useStore(),
 
       apartment_entrance: null,
       apartment_number: null,
       apartment_for_delete: null,
-
     };
   },
 
@@ -24,18 +22,21 @@ export default {
     async submitApartmentForm() {
       const formData = {
         entrance: this.apartment_entrance,
-        number: this.apartment_number
+        number: this.apartment_number,
       };
 
       try {
-        await axios.post("http://localhost:8000/backend/api/add_apartment/", formData, {
-          headers: {
-            "Content-Type": "application/json",
+        await axios.post(
+          "http://localhost:8000/backend/api/add_apartment/",
+          formData,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
           },
-        });
-      
-      await this.store.getApartments();
+        );
 
+        await this.store.getApartments();
       } catch (error) {
         console.error("Error creating apartment:", error);
         alert("Failed to create apartment.");
@@ -49,14 +50,16 @@ export default {
       }
 
       try {
-        await axios.delete(`http://localhost:8000/backend/api/delete_apartment/${this.apartment_for_delete}/`, {
-          headers: {
-            "Content-Type": "application/json",
+        await axios.delete(
+          `http://localhost:8000/backend/api/delete_apartment/${this.apartment_for_delete}/`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
           },
-        });
+        );
 
         await this.store.getApartments();
-
       } catch (error) {
         console.error("Error deleting apartment:", error);
         alert("Failed to delete apartment.");
@@ -67,9 +70,7 @@ export default {
 </script>
 
 <template>
-
   <div class="manage-apartments">
-
     <h1>Manage Apartments</h1>
 
     <div class="create-apartment-page">
@@ -77,10 +78,18 @@ export default {
       <form @submit.prevent="submitApartmentForm" class="apartment-form">
         <!-- Building Dropdown -->
         <div class="form-group">
-          <label for="apartment">Apartment Entrance:</label><br>
-          <select v-model="this.apartment_entrance" id="apartment_entrance" required>
+          <label for="apartment">Apartment Entrance:</label><br />
+          <select
+            v-model="this.apartment_entrance"
+            id="apartment_entrance"
+            required
+          >
             <option value="" disabled>Select an Entrance</option>
-            <option v-for="entrance in this.store.entrances" :key="entrance.id" :value="entrance.id">
+            <option
+              v-for="entrance in this.store.entrances"
+              :key="entrance.id"
+              :value="entrance.id"
+            >
               {{ entrance.building }} - {{ entrance.number }}
             </option>
           </select>
@@ -88,8 +97,13 @@ export default {
 
         <!-- Entrance Number Field -->
         <div class="form-group">
-          <label for="number">Apartment Number:</label><br>
-          <input v-model="this.apartment_number" type="text" id="apartment_number" required />
+          <label for="number">Apartment Number:</label><br />
+          <input
+            v-model="this.apartment_number"
+            type="text"
+            id="apartment_number"
+            required
+          />
         </div>
 
         <!-- Submit Button -->
@@ -100,12 +114,19 @@ export default {
     <div>
       <h2>Delete an Appartment</h2>
       <form @submit.prevent="deleteApartmentForm" class="delete-apartment-form">
-
         <div class="form-group">
-          <label for="apartmentSelect">Select Apartment to Delete:</label><br>
-          <select v-model="this.apartment_for_delete" id="apartment_for_delete" required>
+          <label for="apartmentSelect">Select Apartment to Delete:</label><br />
+          <select
+            v-model="this.apartment_for_delete"
+            id="apartment_for_delete"
+            required
+          >
             <option value="" disabled>Select an Apartment</option>
-            <option v-for="apartment in this.store.apartments" :key="apartment.id" :value="apartment.id">
+            <option
+              v-for="apartment in this.store.apartments"
+              :key="apartment.id"
+              :value="apartment.id"
+            >
               {{ apartment.entrance }} - {{ apartment.number }}
             </option>
           </select>
@@ -113,7 +134,5 @@ export default {
         <button type="submit" class="btn btn-primary">Delete Apartment</button>
       </form>
     </div>
-
   </div>
-
 </template>

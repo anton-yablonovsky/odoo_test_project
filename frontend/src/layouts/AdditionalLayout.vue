@@ -9,9 +9,7 @@ export default {
     };
   },
 
-  async mounted() {
-
-  },
+  async mounted() {},
 };
 </script>
 <template>

@@ -12,23 +12,17 @@ export default {
     };
   },
 
-  async mounted() {
-
-  },
+  async mounted() {},
 
   methods: {
     async submitForm(e) {
-      await this.store.login(this.username, this.password)
+      await this.store.login(this.username, this.password);
 
       if (this.store.isAuthenticatedState) {
-
         await this.store.getUserRole();
 
         router.push("/");
-        
-      } 
-
-      else {
+      } else {
         router.push("/login");
         alert("Access denied!");
       }
